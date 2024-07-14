@@ -5,9 +5,24 @@
 // If the health of the enemy is finished its game over
 // If the player defeats an enemy they will be directed to the next enemy to battle
 
+// >>>>> PLAYER <<<<< \\
+let player = {
+    hp: 1000,
+    ATKPoints: 2000,
+    money: 1000
+}
+
+let displayATKPoints = document.getElementById('player-attack');
+let displayHealthPoints = document.getElementById('player-healthp');
+let displayPlayerMoney = document.getElementById('player-money');
+
+displayPlayerMoney.textContent = player.money;
+
+
+
 
 // >>>>> SHOP SYSTEM <<<<< \\
-const itemStore = [
+let itemStore = [
     {
         name: "Axe",
         ATKPoints: 100,
@@ -89,20 +104,44 @@ function appendItems(){
 appendItems()
 
 function buying(leftItem, midItem, rightItem){
-    if( leftItem === 'left-btn'){
+    if( leftItem === 'left-btn' && player.money >= itemStore[0].price){
         document.getElementById(leftItem).onclick = ()=>{
+            player.money -= itemStore[0].price;
+            console.log(player.money -= itemStore[0].price)
 
+            let newpoints = player.ATKPoints += itemStore[0].ATKPoints;
+            displayATKPoints.textContent = newpoints;
+            console.log("hghnkl")
         }
-
+    } else{
+        alert("You dont Have enough Money")
     }
-    else if( midItem === 'mid-btn'){
+
+
+    if( midItem === 'mid-btn' && player.money >= itemStore[1].price){
         document.getElementById(midItem).onclick = ()=>{
-            
+            player.money -= itemStore[1].price;
+
+            let newpoints = player.ATKPoints += itemStore[1].ATKPoints;
+            displayATKPoints.textContent = newpoints;
+            console.log("hghnkl")
         }
+    } else{
+        alert("You dont have enough Money")
     }
-     else if( rightItem === 'right-btn'){
+
+
+    if( rightItem === 'right-btn' && player.money >= itemStore[2].price){
         document.getElementById(rightItem).onclick = ()=>{
-            
+            player.money -= itemStore[2].price;
+
+            let newpoints = player.hp += itemStore[2].health;
+            displayHealthPoints.textContent = newpoints;
+            console.log("hghnkl")
         }
+    } else{
+        alert("You dont have enough money")
     }
 };
+
+console.log(player.money -= itemStore[0].price)
