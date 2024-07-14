@@ -69,9 +69,68 @@
 
             <!-- Label Content => display The instructions and outcome of your decisions -->
             <div class="labes">
-                <h2 id="js-instuction">Choose Your Enemy</h2>
+                <h2><span>Dungeon Raiders</span></h2>
+
+                <!-- Player STATS Section -->
+                <section class="stats">
+                    <div class="player-stats">
+                        <h2>Player</h2>
+                        <div class="ATKPoints">
+                            <h2>ATKPoints</h2>
+                            <p>100</p>
+                        </div>
+                        <div class="health-points">
+                            <h2>Health Points</h2>
+                            <p>100</p>
+                        </div>
+                    </div>
+
+                    <div class="enemy-stats">
+                        <h2>Enemy</h2>
+                        <div class="ATKPoints">
+                            <h2>ATKPoints</h2>
+                            <p>100</p>
+                        </div>
+                        <div class="health-points">
+                            <h2>Health Points</h2>
+                            <p>100</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="shop">
+                    <div class="money">
+                        <h3>Money:</h3>
+                        <p>R1000</p>
+                    </div>
+
+                    <div class="shop-store">
+                        <button id="js-shop">Shop</button>
+
+                        <div class="shop-items">
+                            <button class="js-axe">Axe : 100ATKponts</button>
+
+                            <button class="js-sword">Sword : 100ATKponts</button>
+
+                            <button class="js-hp">Health Potion: 29 +HP</button>
+                        </div>
+                    </div>
+                </section> 
             </div>
 
+            <!-- Section where the player gets to play the game -->
+            <div class="play-game">
+                <p class="js-instuction">
+                    You have stumbled on the entrace of a Dungeon but it seems it has 3 paths. <br>
+                    Choose your path and become the dungeon master
+                </p>
+
+                <div class="play-buttons">
+                    <button class="js-left">Goblin</button>
+                    <button class="js-mid">Pheonix</button>
+                    <button class="js-right">Might Dragon</button>
+                </div>
+            </div>
         </article>
     </main>
 
