@@ -1,8 +1,7 @@
 // A dungeon raider game where the player will decide carefully wich enemys to fight
 // They can buy items in the shop that will help with their guest
 // As they play the player and enemy health reduces depending on the player and enemy attack points
-// Upon the player defeating one enemy he will be rewarded with money to be able to buy items at the shop
-// If the health of the enemy is finished its game over
+// Upon the player defeating one enemy he will be rewarded with items
 // If the player defeats an enemy they will be directed to the next enemy to battle
 
 // >>>>> PLAYER <<<<< \\
@@ -15,10 +14,6 @@ let player = {
 let displayATKPoints = document.getElementById('player-attack');
 let displayHealthPoints = document.getElementById('player-healthp');
 let displayPlayerMoney = document.getElementById('player-money');
-
-displayPlayerMoney.textContent = player.money;
-
-
 
 
 // >>>>> SHOP SYSTEM <<<<< \\
@@ -43,105 +38,105 @@ let itemStore = [
     }
 ];
 
-// Acess the shop by appending 3 buttons bellow the shop button
-// the button should change to exit shop if shop is entered and back to shop if its exited
-// Each button should add more points to health or ATKPoints if the player has enough money to buy the item
-let shopEntered = false;
-const shop = document.getElementById('js-shop');
-shop.onclick = ()=>{
-    // Handles when the player enters and axits the shop
-    if(shopEntered === true){
-        shop.textContent = 'Shop';
-        shopEntered = false;
-    } else{
-        shop.textContent = 'Exit Shop'
-        shopEntered = true;
-    }
+// Handles the AXE BUTTON
+document.getElementById('axe-btn').onclick = ()=>{
+    checkFunds(0);
+    
+    // Display the upgraded ATKPoints
+    let newpoints = player.ATKPoints += itemStore[0].ATKPoints;
+    displayATKPoints.textContent = newpoints;
+    console.log("hghnkl")
 };
 
-// Append 3 buttons on display
-// The user should be able to buy items to increas chanches of survival
+// Handles the SWORD BUTTON
+document.getElementById('sword-btn').onclick = ()=>{
+    checkFunds(1);
 
-const storeContainer = document.querySelector('.shop-store');
+    let newpoints = player.ATKPoints += itemStore[1].ATKPoints;
+    displayATKPoints.textContent = newpoints;
+    console.log("hghnkl")
+};
 
-function appendItems(){
-/*     let shopItensDiv = document.createElement('div');
-    shopItensDiv.className = 'shop-items';
-    for(let i = 1; i <= 3; i++){
-        let itemButton = document.createElement('button');
-        itemButton.className = `button${i}`;
-        itemButton.textContent = `${itemStore[i].name}`;
-        shopItensDiv.append(itemButton)
-    }
+// Handles the HP BUTTON
+document.getElementById('hp-btn').onclick = ()=>{
+    checkFunds(2);
 
-    storeContainer.append(shopItensDiv); */
+    let newpoints = player.hp += itemStore[2].health;
+    displayHealthPoints.textContent = newpoints;
+    console.log("hghnkl")
+};
 
-    let shopItemsDiv = document.createElement('div');
-    shopItemsDiv.className = 'shop-items';
-
-    // Creates the Axe button
-    let leftButton = document.createElement('button');
-    leftButton.id = 'left-btn';
-    leftButton.textContent = `${itemStore[0].name}: ${itemStore[0].ATKPoints}ATKpoints`;
-
-    // Creates the sword button
-    let midButton = document.createElement('button');
-    midButton.id = 'mid-btn';
-    midButton.textContent = `${itemStore[1].name}: ${itemStore[1].ATKPoints}ATKpoints`;
-
-    // Creats the health potion button
-    let rightButton = document.createElement('button');
-    rightButton.id = 'right-btn';
-    rightButton.textContent = `${itemStore[2].name}: ${itemStore[2].health}HP`;
-
-    shopItemsDiv.append(leftButton, midButton, rightButton);
-    storeContainer.append(shopItemsDiv);
-
-    buying(leftButton.id, midButton.id, rightButton.id)
-
-}
-
-appendItems()
-
-function buying(leftItem, midItem, rightItem){
-    if( leftItem === 'left-btn' && player.money >= itemStore[0].price){
-        document.getElementById(leftItem).onclick = ()=>{
-            player.money -= itemStore[0].price;
-            console.log(player.money -= itemStore[0].price)
-
-            let newpoints = player.ATKPoints += itemStore[0].ATKPoints;
-            displayATKPoints.textContent = newpoints;
-            console.log("hghnkl")
-        }
+// Checks if player has enough funds to buy the weapon
+function checkFunds(nth){
+    if(player.money > 0 && player.money >= itemStore[0].price){
+        player.money -= itemStore[nth].price
+        displayPlayerMoney.textContent = player.money;
     } else{
         alert("You dont Have enough Money")
     }
-
-
-    if( midItem === 'mid-btn' && player.money >= itemStore[1].price){
-        document.getElementById(midItem).onclick = ()=>{
-            player.money -= itemStore[1].price;
-
-            let newpoints = player.ATKPoints += itemStore[1].ATKPoints;
-            displayATKPoints.textContent = newpoints;
-            console.log("hghnkl")
-        }
-    } else{
-        alert("You dont have enough Money")
-    }
-
-
-    if( rightItem === 'right-btn' && player.money >= itemStore[2].price){
-        document.getElementById(rightItem).onclick = ()=>{
-            player.money -= itemStore[2].price;
-
-            let newpoints = player.hp += itemStore[2].health;
-            displayHealthPoints.textContent = newpoints;
-            console.log("hghnkl")
-        }
-    } else{
-        alert("You dont have enough money")
-    }
 };
 
-console.log(player.money -= itemStore[0].price)
+
+// >>>>> GAME SYSTEM <<<<< \\
+// The player gets to choose wich enemy to fight first
+// They can only win if they defeat all enemies
+// Upon choosing thier enemy 
+//      1. The left button will be changed to quite
+//              * If they quite the game is over and they loose
+//      2. The middle button will display the enemy the player will fight
+//              * They click the middle button to fight
+//      3. The right button will dislplay the next button
+//              * Only displays next when the player wins the fight
+
+// CONSTANT BUTTON
+const LEFT_BUTTON = document.querySelector('.js-left');
+const MID_BUTTON = document.querySelector('.js-mid');
+const RIGHT_BUTTON = document.querySelector('.js-right');
+
+let enemies = [
+    {
+        name: 'Goblin',
+        hp: 10000,
+        ATKPoints: 1000,
+        reward: {
+            hp: 0,
+            money: 1000
+        }
+    },
+    {
+        name: 'Pheonix',
+        hp: 20000,
+        ATKPoints: 1000,
+        reward: {
+            hp: 550,
+            money: 500
+        }
+    },
+    {
+        name: 'Might Dragon',
+        hp: 50000,
+        ATKPoints: 2700,
+        reward: {
+            hp: 0,
+            money: 10000
+        }
+    },
+];
+
+LEFT_BUTTON.addEventListener('click', ()=>{
+    dislplayEnemy(enemies[0].name);
+});
+
+MID_BUTTON.addEventListener('click', ()=>{
+    dislplayEnemy(enemies[1].name)
+});
+
+RIGHT_BUTTON.addEventListener('click', ()=>{
+    dislplayEnemy(enemies[2].name)
+})
+
+function dislplayEnemy(choice){
+    LEFT_BUTTON.textContent = 'quit';
+    MID_BUTTON.textContent = choice;
+    RIGHT_BUTTON.textContent = 'next'
+}

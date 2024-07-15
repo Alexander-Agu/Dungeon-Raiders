@@ -246,9 +246,17 @@
         width: 500px;
 
         display: flex;
-        flex-direction: column;
         align-items: center;
         gap: 1rem;
+    }
+
+    .shop-store button{
+        width: 160px;
+        height: 90px;
+        background-color: rgba(255, 0, 0, 0.473);
+        border: 2px solid red;
+        border-radius: 16px;
+        font-size: 20px;
     }
 
     #js-shop{
@@ -265,12 +273,7 @@
     }
 
     .shop-items button{
-        width: 160px;
-        height: 90px;
-        background-color: rgba(255, 0, 0, 0.473);
-        border: 2px solid red;
-        border-radius: 16px;
-        font-size: 20px;
+
     }
 /* >> GAME => PLAY GAME STYLES */
     .play-game{
