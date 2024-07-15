@@ -11,9 +11,10 @@ let player = {
     money: 1000
 }
 
-let displayATKPoints = document.getElementById('player-attack');
-let displayHealthPoints = document.getElementById('player-healthp');
-let displayPlayerMoney = document.getElementById('player-money');
+// CONSTANT VARIABLES
+const DISPLAY_PLAYER_ATKPOINTS = document.getElementById('player-attack');
+const DISPLAY_PLAYER_HP = document.getElementById('player-healthp');
+const DISPLAY_PLAYER_MONEY = document.getElementById('player-money');
 
 
 // >>>>> SHOP SYSTEM <<<<< \\
@@ -44,7 +45,7 @@ document.getElementById('axe-btn').onclick = ()=>{
     
     // Display the upgraded ATKPoints
     let newpoints = player.ATKPoints += itemStore[0].ATKPoints;
-    displayATKPoints.textContent = newpoints;
+    DISPLAY_PLAYER_ATKPOINTS.textContent = newpoints;
     console.log("hghnkl")
 };
 
@@ -53,7 +54,7 @@ document.getElementById('sword-btn').onclick = ()=>{
     checkFunds(1);
 
     let newpoints = player.ATKPoints += itemStore[1].ATKPoints;
-    displayATKPoints.textContent = newpoints;
+    DISPLAY_PLAYER_ATKPOINTS.textContent = newpoints;
     console.log("hghnkl")
 };
 
@@ -62,7 +63,7 @@ document.getElementById('hp-btn').onclick = ()=>{
     checkFunds(2);
 
     let newpoints = player.hp += itemStore[2].health;
-    displayHealthPoints.textContent = newpoints;
+    DISPLAY_PLAYER_HP.textContent = newpoints;
     console.log("hghnkl")
 };
 
@@ -70,7 +71,7 @@ document.getElementById('hp-btn').onclick = ()=>{
 function checkFunds(nth){
     if(player.money > 0 && player.money >= itemStore[0].price){
         player.money -= itemStore[nth].price
-        displayPlayerMoney.textContent = player.money;
+        DISPLAY_PLAYER_MONEY.textContent = player.money;
     } else{
         alert("You dont Have enough Money")
     }
@@ -88,11 +89,16 @@ function checkFunds(nth){
 //      3. The right button will dislplay the next button
 //              * Only displays next when the player wins the fight
 
-// CONSTANT BUTTON
+// CONSTANT VARIABLES
 const LEFT_BUTTON = document.querySelector('.js-left');
 const MID_BUTTON = document.querySelector('.js-mid');
 const RIGHT_BUTTON = document.querySelector('.js-right');
+const PATH_DISPLAY = document.querySelector('.js-instruction');
+const DISPLAY_ENEMY_NAME = document.querySelector('.enemy-name');
+const DISPLAY_ENEMY_ATKPOINTS = document.querySelector('.enemy-atkPoints');
+const DISPLAY_ENEMY_HP = document.querySelector('.enemy-hp');
 
+// Conatins enemies stats and rewards upon defeat
 let enemies = [
     {
         name: 'Goblin',
@@ -123,20 +129,91 @@ let enemies = [
     },
 ];
 
+// Handles the left button
 LEFT_BUTTON.addEventListener('click', ()=>{
-    dislplayEnemy(enemies[0].name);
+    choosePath(enemies[0].name);
 });
 
+// Handles the middle button
 MID_BUTTON.addEventListener('click', ()=>{
-    dislplayEnemy(enemies[1].name)
+    choosePath(enemies[1].name);
 });
 
+// Handles the right button
 RIGHT_BUTTON.addEventListener('click', ()=>{
-    dislplayEnemy(enemies[2].name)
-})
+    choosePath(enemies[2].name);
+});
 
-function dislplayEnemy(choice){
+// Lets Player choose path and play the game based on the path they took
+function choosePath(path){
+    displayStats(path)
+
+    if(MID_BUTTON.textContent === `fight ${enemies[0].name}`){
+        playGame(0);
+    }
+
+    else if(MID_BUTTON.textContent === `fight ${enemies[1].name}`){
+        playGame(1);
+    }
+
+    else if(MID_BUTTON.textContent === `fight ${enemies[2].name}`){
+        playGame(2);
+    };
+};
+
+// Display the ENEMY & PLAYER stats and changes them depending on the gameplay
+function displayStats(choice){
     LEFT_BUTTON.textContent = 'quit';
-    MID_BUTTON.textContent = choice;
-    RIGHT_BUTTON.textContent = 'next'
+    MID_BUTTON.textContent = `fight ${choice}`;
+    RIGHT_BUTTON.textContent = '*';
+    // Player stats
+    DISPLAY_PLAYER_HP.textContent = player.hp;
+    DISPLAY_PLAYER_ATKPOINTS.textContent = player.ATKPoints;
+
+    // Enemy stats
+    if(choice === enemies[0].name){
+        DISPLAY_ENEMY_NAME.textContent = enemies[0].name;
+        DISPLAY_ENEMY_ATKPOINTS.textContent = enemies[0].ATKPoints;
+        DISPLAY_ENEMY_HP.textContent = enemies[0].hp;
+    }
+    else if(choice === enemies[1].name){
+        DISPLAY_ENEMY_NAME.textContent = enemies[1].name;
+        DISPLAY_ENEMY_ATKPOINTS.textContent = enemies[1].ATKPoints;
+        DISPLAY_ENEMY_HP.textContent = enemies[1].hp;
+    }
+    else if(choice === enemies[2].name){
+        DISPLAY_ENEMY_NAME.textContent = enemies[2].name;
+        DISPLAY_ENEMY_ATKPOINTS.textContent = enemies[2].ATKPoints;
+        DISPLAY_ENEMY_HP.textContent = enemies[2].hp;
+    }
+
+}
+
+// Lets the player be able to play the game
+function playGame(play){
+    // Handles the quite button
+    LEFT_BUTTON.addEventListener('click', ()=>{
+        PATH_DISPLAY.textContent = 'You will Never become a DUNGEON RAIDER';
+    });
+
+    // Handles the fight enemy button
+    MID_BUTTON.addEventListener('click', ()=>{
+        DISPLAY_PLAYER_HP.textContent -= enemies[play].ATKPoints;
+        DISPLAY_ENEMY_HP.textContent -= player.ATKPoints;
+
+        // Checks if the player or enemies health is at zero
+        if(DISPLAY_PLAYER_HP.textContent - DISPLAY_ENEMY_ATKPOINTS.textContent < 0){
+            player.hp = 0;
+            DISPLAY_PLAYER_HP.textContent = player.hp;
+        }
+
+        else if(DISPLAY_ENEMY_HP.textContent - DISPLAY_ENEMY_ATKPOINTS.textContent < 0){
+            enemies[play].hp = 0;
+            DISPLAY_ENEMY_HP.textContent = enemies[play].hp;
+        }
+    });
+};
+
+function checkWin(){
+
 }
