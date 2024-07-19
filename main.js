@@ -201,7 +201,7 @@ function appendButtons(nthButton, container){
     }
 
     // Gives our appended buttons functionality
-    playGame(buttonIdList, nthButton);
+    playGame(buttonIdList, nthButton, nthButton);
 }
 
 // Display the ENEMY & PLAYER STATS
@@ -217,7 +217,7 @@ function displayStats(choice){
 };
 
 // Lets the player be able to play the game
-function playGame(play, buttons){
+function playGame(play, buttons, looser){
     // Handles the quite button
     document.getElementById(play[0]).onclick = ()=>{
         GAME_CONTAINER.textContent = 'You will Never become a DUNGEON RAIDER';
@@ -226,6 +226,29 @@ function playGame(play, buttons){
     // Handles the fight button
     // Every click must decrease both the player and enemy health at the same time depending on thier ATKPoints
     document.getElementById(play[1]).onclick = ()=>{
-        DISPLAY_PLAYER_HP.textContent -= enemies[buttons].ATKPoints
+        DISPLAY_PLAYER_HP.textContent -= enemies[buttons].ATKPoints;
+        DISPLAY_ENEMY_HP.textContent -= player.ATKPoints;
+        console.log("jghf")
+        checkWinner(looser)
     };
 };
+
+// Checks if the PLAYER or the ENEMY won
+// If the player win he will be able to take the reward and move on to the next boss
+// If the player dies its gameover
+function checkWinner(winner){
+    // Checks if the player lost
+    if(DISPLAY_PLAYER_HP.textContent === '0' || DISPLAY_PLAYER_HP.textContent < '0'){
+        DISPLAY_PLAYER_HP.textContent = 0;
+        document.getElementById('button1').onclick = null;
+    }
+
+    // Checks if the enemy lost
+    else if(DISPLAY_ENEMY_HP.textContent === '0' || DISPLAY_ENEMY_HP.textContent <'0'){
+        DISPLAY_ENEMY_HP.textContent = 0;
+
+        LEFT_BUTTON.textContent = `${enemies[winner].name} is Dead!`;
+        PATH_DISPLAY.textContent = `${enemies[winner].name} is Dead!`;
+    }
+
+}
