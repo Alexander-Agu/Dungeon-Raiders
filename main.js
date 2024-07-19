@@ -169,7 +169,8 @@ function choosePath(){
     else if(midButtonClicked === true){
         // Allows us to append the button only ones
         if(PHEONIX_CONTSINER.innerHTML === ''){
-            appendButtons(0, PHEONIX_CONTSINER);
+            appendButtons(1, PHEONIX_CONTSINER);
+            displayStats(1);
             LEFT_BUTTON.onclick = null;
             RIGHT_BUTTON.onclick = null;
         }
@@ -178,9 +179,10 @@ function choosePath(){
     else if(rightButtonClicked === true){
         // Allows us to append the button only ones
         if(MIGHT_DRAGON_CONTSINER.innerHTML === ''){
-            appendButtons(0, MIGHT_DRAGON_CONTSINER);
+            appendButtons(2, MIGHT_DRAGON_CONTSINER);
             MID_BUTTON.onclick = null;
             LEFT_BUTTON.onclick = null;
+            displayStats(2);
         }
     }
 };
@@ -188,12 +190,18 @@ function choosePath(){
 // Appends 3 buttons bellow to fight the enemies
 function appendButtons(nthButton, container){
     let buttonPart = ['Quit', `Fight ${enemies[nthButton].name}`, 'Take Reward']
+
+    let buttonIdList = [];
     for(let i = 0; i <= 2; i++){
         let button = document.createElement('button');
         button.id = `button${i}`;
+        buttonIdList.push(button.id);
         button.textContent = buttonPart[i];
         container.append(button);
     }
+
+    // Gives our appended buttons functionality
+    playGame(buttonIdList, nthButton);
 }
 
 // Display the ENEMY & PLAYER STATS
@@ -209,31 +217,15 @@ function displayStats(choice){
 };
 
 // Lets the player be able to play the game
-function playGame(play){
+function playGame(play, buttons){
     // Handles the quite button
-    LEFT_BUTTON.addEventListener('click', ()=>{
+    document.getElementById(play[0]).onclick = ()=>{
         GAME_CONTAINER.textContent = 'You will Never become a DUNGEON RAIDER';
-    });
+    };
 
-    
-    player.hp -= enemies[0].ATKPoints;
-    // Handles the fight enemy button
-    MID_BUTTON.addEventListener('click', ()=>{
-        DISPLAY_PLAYER_HP.textContent = player.hp
-        
-
-
-        // Checks if the player or enemy died
-        if(DISPLAY_PLAYER_HP.textContent < '0'){
-            DISPLAY_PLAYER_HP.textContent = 0;          
-        }
-        else if(DISPLAY_ENEMY_HP.textContent < '0'){
-            DISPLAY_ENEMY_HP.textContent = 0;
-        }
-    });
+    // Handles the fight button
+    // Every click must decrease both the player and enemy health at the same time depending on thier ATKPoints
+    document.getElementById(play[1]).onclick = ()=>{
+        DISPLAY_PLAYER_HP.textContent -= enemies[buttons].ATKPoints
+    };
 };
-
-function playerATK(enemy){
-    
-
-}
