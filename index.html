@@ -50,22 +50,6 @@
         </article>
 
         <article id="game">
-            <!-- Display the health of the enemy and player -->
-            <div class="health">
-                <div class="player">
-                    <h2>Player</h2>
-                    <div class="player-health">
-                        <p>123</p>
-                    </div>
-                </div>
-
-                <div class="enemy">
-                    <h2 class="enemy">Enemy</h2>
-                    <div class="enemy-health">
-                        <p>123</p>
-                    </div>
-                </div>
-            </div>
 
             <!-- Label Content => display The instructions and outcome of your decisions -->
             <div class="labes">
@@ -77,11 +61,11 @@
                         <h2>Player</h2>
                         <div class="ATKPoints">
                             <h2>ATKPoints</h2>
-                            <p id="player-attack">100</p>
+                            <p id="player-attack">1000</p>
                         </div>
                         <div class="health-points">
                             <h2>Health Points</h2>
-                            <p id="player-healthp">100</p>
+                            <p id="player-healthp">99999</p>
                         </div>
                     </div>
 
@@ -101,28 +85,46 @@
                 <section class="shop">
                     <div class="money">
                         <h3>Money:</h3>
-                        <p id="player-money">R1000</p>
+                        <p id="player-money">R2000</p>
                     </div>
 
                     <div class="shop-store">
                         <button id="axe-btn">Axe: 500ATKPoints</button>
-                        <button id="sword-btn">Sword: 500ATKPoints</button>
-                        <button id="hp-btn">HP: 50</button>
+                        <button id="sword-btn">Sword: 720ATKPoints</button>
+                        <button id="hp-btn">Health Points: 1000</button>
                     </div>
                 </section> 
             </div>
 
             <!-- Section where the player gets to play the game -->
-            <div class="play-game">
+            <div class="start-game">
                 <p class="js-instruction">
                     You have stumbled on the entrace of a Dungeon but it seems it has 3 paths. <br>
                     Choose your path and become the dungeon master
                 </p>
 
                 <div class="play-buttons">
-                    <button class="js-left">Goblin</button>
-                    <button class="js-mid">Pheonix</button>
-                    <button class="js-right">Might Dragon</button>
+                    <div class="goblin">
+                        <button class="js-left">Goblin</button>
+
+                        <div class="fight-goblin"></div>
+                    </div>
+
+                    <div class="pheonix">
+                        <button class="js-mid">Pheonix</button>
+
+                        <div class="fight-pheonix"></div>
+                    </div>
+
+                    <div class="might-dragon">
+                        <button class="js-right">Might Dragon</button>
+
+                        <div class="fight-might-dragon"></div>
+                    </div>
+                </div>
+
+                <div class="play-game">
+
                 </div>
             </div>
         </article>

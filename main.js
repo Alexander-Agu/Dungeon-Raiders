@@ -7,8 +7,8 @@
 // >>>>> PLAYER <<<<< \\
 let player = {
     hp: 1000,
-    ATKPoints: 2000,
-    money: 1000
+    ATKPoints: 20000,
+    money: 10000
 }
 
 // CONSTANT VARIABLES
@@ -81,7 +81,7 @@ function checkFunds(nth){
 // >>>>> GAME SYSTEM <<<<< \\
 // The player gets to choose wich enemy to fight first
 // They can only win if they defeat all enemies
-// Upon choosing thier enemy 
+// Upon choosing thier enemy 3 buttons will be appended below
 //      1. The left button will be changed to quite
 //              * If they quite the game is over and they loose
 //      2. The middle button will display the enemy the player will fight
@@ -97,13 +97,17 @@ const PATH_DISPLAY = document.querySelector('.js-instruction');
 const DISPLAY_ENEMY_NAME = document.querySelector('.enemy-name');
 const DISPLAY_ENEMY_ATKPOINTS = document.querySelector('.enemy-atkPoints');
 const DISPLAY_ENEMY_HP = document.querySelector('.enemy-hp');
+const GAME_CONTAINER = document.querySelector('.start-game');
+const GOBLIN_CONTSINER = document.querySelector('.fight-goblin');
+const PHEONIX_CONTSINER = document.querySelector('.fight-pheonix');
+const MIGHT_DRAGON_CONTSINER = document.querySelector('.fight-might-dragon');
 
 // Conatins enemies stats and rewards upon defeat
 let enemies = [
     {
         name: 'Goblin',
         hp: 10000,
-        ATKPoints: 1000,
+        ATKPoints: 100,
         reward: {
             hp: 0,
             money: 1000
@@ -129,43 +133,62 @@ let enemies = [
     },
 ];
 
+let leftButtonClicked = false;
+let midButtonClicked = false;
+let rightButtonClicked = false;
 // Handles the left button
-LEFT_BUTTON.addEventListener('click', ()=>{
-    choosePath(enemies[0].name);
-});
-
-// Handles the middle button
-MID_BUTTON.addEventListener('click', ()=>{
-    choosePath(enemies[1].name);
-});
-
-// Handles the right button
-RIGHT_BUTTON.addEventListener('click', ()=>{
-    choosePath(enemies[2].name);
-});
-
-// Lets Player choose path and play the game based on the path they took
-function choosePath(path){
-    displayStats(path)
-
-    if(MID_BUTTON.textContent === `fight ${enemies[0].name}`){
-        playGame(0);
-    }
-
-    else if(MID_BUTTON.textContent === `fight ${enemies[1].name}`){
-        playGame(1);
-    }
-
-    else if(MID_BUTTON.textContent === `fight ${enemies[2].name}`){
-        playGame(2);
-    };
+LEFT_BUTTON.onclick = ()=>{
+    leftButtonClicked = true;
+    choosePath();
 };
 
-// Display the ENEMY & PLAYER stats and changes them depending on the gameplay
+// Handles the middle button
+MID_BUTTON.onclick = ()=>{
+    midButtonClicked = true;
+    choosePath();
+};
+
+// Handles the right button
+RIGHT_BUTTON.onclick = ()=>{
+    rightButtonClicked = true;
+    choosePath();
+};
+
+// Lets Player choose path and play the game based on the path they took
+function choosePath(){
+    if(leftButtonClicked === true){
+        // Allows us to append the button only ones
+        if(GOBLIN_CONTSINER.innerHTML === ''){
+            appendButtons(0, GOBLIN_CONTSINER);
+        }
+
+        MID_BUTTON.onclick = null;
+        RIGHT_BUTTON.onclick = null;
+    }
+
+    else if(midButtonClicked === true){
+        // Allows us to append the button only ones
+        if(PHEONIX_CONTSINER.innerHTML === ''){
+            appendButtons(0, PHEONIX_CONTSINER);
+        }
+
+        LEFT_BUTTON.onclick = null;
+        RIGHT_BUTTON.onclick = null;
+    }
+
+    else if(rightButtonClicked === true){
+        // Allows us to append the button only ones
+        if(MIGHT_DRAGON_CONTSINER.innerHTML === ''){
+            appendButtons(0, MIGHT_DRAGON_CONTSINER);
+        }
+
+        MID_BUTTON.onclick = null;
+        LEFT_BUTTON.onclick = null;
+    }
+};
+
+// Display the ENEMY & PLAYER stats
 function displayStats(choice){
-    LEFT_BUTTON.textContent = 'quit';
-    MID_BUTTON.textContent = `fight ${choice}`;
-    RIGHT_BUTTON.textContent = '*';
     // Player stats
     DISPLAY_PLAYER_HP.textContent = player.hp;
     DISPLAY_PLAYER_ATKPOINTS.textContent = player.ATKPoints;
@@ -189,31 +212,44 @@ function displayStats(choice){
 
 }
 
+// Appends 3 buttons bellow to fight the enemies
+function appendButtons(nthButton, container){
+    let buttonPart = ['Quit', `Fight ${enemies[nthButton].name}`, 'Take Reward']
+    for(let i = 0; i <= 2; i++){
+        let button = document.createElement('button');
+        button.id = `button${i}`;
+        button.textContent = buttonPart[i];
+        container.append(button);
+    }
+}
+
 // Lets the player be able to play the game
+
 function playGame(play){
     // Handles the quite button
     LEFT_BUTTON.addEventListener('click', ()=>{
-        PATH_DISPLAY.textContent = 'You will Never become a DUNGEON RAIDER';
+        GAME_CONTAINER.textContent = 'You will Never become a DUNGEON RAIDER';
     });
 
+    
+    player.hp -= enemies[0].ATKPoints;
     // Handles the fight enemy button
     MID_BUTTON.addEventListener('click', ()=>{
-        DISPLAY_PLAYER_HP.textContent -= enemies[play].ATKPoints;
-        DISPLAY_ENEMY_HP.textContent -= player.ATKPoints;
+        DISPLAY_PLAYER_HP.textContent = player.hp
+        
 
-        // Checks if the player or enemies health is at zero
-        if(DISPLAY_PLAYER_HP.textContent - DISPLAY_ENEMY_ATKPOINTS.textContent < 0){
-            player.hp = 0;
-            DISPLAY_PLAYER_HP.textContent = player.hp;
+
+        // Checks if the player or enemy died
+        if(DISPLAY_PLAYER_HP.textContent < '0'){
+            DISPLAY_PLAYER_HP.textContent = 0;          
         }
-
-        else if(DISPLAY_ENEMY_HP.textContent - DISPLAY_ENEMY_ATKPOINTS.textContent < 0){
-            enemies[play].hp = 0;
-            DISPLAY_ENEMY_HP.textContent = enemies[play].hp;
+        else if(DISPLAY_ENEMY_HP.textContent < '0'){
+            DISPLAY_ENEMY_HP.textContent = 0;
         }
     });
 };
 
-function checkWin(){
+function playerATK(enemy){
+    
 
 }
