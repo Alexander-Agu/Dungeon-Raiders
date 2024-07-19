@@ -160,57 +160,30 @@ function choosePath(){
         // Allows us to append the button only ones
         if(GOBLIN_CONTSINER.innerHTML === ''){
             appendButtons(0, GOBLIN_CONTSINER);
+            displayStats(0);
+            MID_BUTTON.onclick = null;
+            RIGHT_BUTTON.onclick = null;
         }
-
-        MID_BUTTON.onclick = null;
-        RIGHT_BUTTON.onclick = null;
     }
 
     else if(midButtonClicked === true){
         // Allows us to append the button only ones
         if(PHEONIX_CONTSINER.innerHTML === ''){
             appendButtons(0, PHEONIX_CONTSINER);
+            LEFT_BUTTON.onclick = null;
+            RIGHT_BUTTON.onclick = null;
         }
-
-        LEFT_BUTTON.onclick = null;
-        RIGHT_BUTTON.onclick = null;
     }
 
     else if(rightButtonClicked === true){
         // Allows us to append the button only ones
         if(MIGHT_DRAGON_CONTSINER.innerHTML === ''){
             appendButtons(0, MIGHT_DRAGON_CONTSINER);
+            MID_BUTTON.onclick = null;
+            LEFT_BUTTON.onclick = null;
         }
-
-        MID_BUTTON.onclick = null;
-        LEFT_BUTTON.onclick = null;
     }
 };
-
-// Display the ENEMY & PLAYER stats
-function displayStats(choice){
-    // Player stats
-    DISPLAY_PLAYER_HP.textContent = player.hp;
-    DISPLAY_PLAYER_ATKPOINTS.textContent = player.ATKPoints;
-
-    // Enemy stats
-    if(choice === enemies[0].name){
-        DISPLAY_ENEMY_NAME.textContent = enemies[0].name;
-        DISPLAY_ENEMY_ATKPOINTS.textContent = enemies[0].ATKPoints;
-        DISPLAY_ENEMY_HP.textContent = enemies[0].hp;
-    }
-    else if(choice === enemies[1].name){
-        DISPLAY_ENEMY_NAME.textContent = enemies[1].name;
-        DISPLAY_ENEMY_ATKPOINTS.textContent = enemies[1].ATKPoints;
-        DISPLAY_ENEMY_HP.textContent = enemies[1].hp;
-    }
-    else if(choice === enemies[2].name){
-        DISPLAY_ENEMY_NAME.textContent = enemies[2].name;
-        DISPLAY_ENEMY_ATKPOINTS.textContent = enemies[2].ATKPoints;
-        DISPLAY_ENEMY_HP.textContent = enemies[2].hp;
-    }
-
-}
 
 // Appends 3 buttons bellow to fight the enemies
 function appendButtons(nthButton, container){
@@ -223,8 +196,19 @@ function appendButtons(nthButton, container){
     }
 }
 
-// Lets the player be able to play the game
+// Display the ENEMY & PLAYER STATS
+function displayStats(choice){
+    // Player stats
+    DISPLAY_PLAYER_HP.textContent = player.hp;
+    DISPLAY_PLAYER_ATKPOINTS.textContent = player.ATKPoints;
 
+    // Enemy stats
+    DISPLAY_ENEMY_NAME.textContent = enemies[choice].name;
+    DISPLAY_ENEMY_ATKPOINTS.textContent = enemies[choice].ATKPoints;
+    DISPLAY_ENEMY_HP.textContent = enemies[choice].hp;
+};
+
+// Lets the player be able to play the game
 function playGame(play){
     // Handles the quite button
     LEFT_BUTTON.addEventListener('click', ()=>{
