@@ -115,8 +115,8 @@ let enemies = [
     },
     {
         name: 'Pheonix',
-        hp: 20000,
-        ATKPoints: 1000,
+        hp: 10000,
+        ATKPoints: 100,
         reward: {
             hp: 550,
             money: 500
@@ -124,8 +124,8 @@ let enemies = [
     },
     {
         name: 'Might Dragon',
-        hp: 50000,
-        ATKPoints: 2700,
+        hp: 10000,
+        ATKPoints: 100,
         reward: {
             hp: 0,
             money: 10000
@@ -133,56 +133,67 @@ let enemies = [
     },
 ];
 
-let leftButtonClicked = false;
-let midButtonClicked = false;
-let rightButtonClicked = false;
 // Handles the left button
+let leftButtonClicked = false;
 LEFT_BUTTON.onclick = ()=>{
-    leftButtonClicked = true;
-    choosePath();
+
+    if(DISPLAY_ENEMY_NAME.textContent === 'Enemy'){
+        leftButtonClicked = true;
+        choosePath(0);
+    } else{
+        alert("Fight the enemy you have chosen before you move on to this point");
+    };
 };
 
 // Handles the middle button
+let midButtonClicked = false;
 MID_BUTTON.onclick = ()=>{
-    midButtonClicked = true;
-    choosePath();
+    if(DISPLAY_ENEMY_NAME.textContent === 'Enemy'){
+        midButtonClicked = true;
+        choosePath(1);
+        console.log('if 1')
+    } else{
+        alert("Fight the enemy you have chosen before you move on to this point");
+    };
 };
 
 // Handles the right button
+let rightButtonClicked = false;
 RIGHT_BUTTON.onclick = ()=>{
-    rightButtonClicked = true;
-    choosePath();
+    if(DISPLAY_ENEMY_NAME.textContent === 'Enemy'){
+        rightButtonClicked = true;
+        choosePath(2);
+    } else{
+        alert("Fight the enemy you have chosen before you move on to this point");
+    };
 };
 
 // Lets Player choose path and play the game based on the path they took
-function choosePath(){
+function choosePath(path){
     if(leftButtonClicked === true){
         // Allows us to append the button only ones
         if(GOBLIN_CONTSINER.innerHTML === ''){
-            appendButtons(0, GOBLIN_CONTSINER);
-            displayStats(0);
-            MID_BUTTON.onclick = null;
-            RIGHT_BUTTON.onclick = null;
+            PATH_DISPLAY.textContent = 'Defeat the Goblin';
+            appendButtons(path, GOBLIN_CONTSINER);
+            displayStats(path);
         }
     }
 
     else if(midButtonClicked === true){
         // Allows us to append the button only ones
         if(PHEONIX_CONTSINER.innerHTML === ''){
-            appendButtons(1, PHEONIX_CONTSINER);
-            displayStats(1);
-            LEFT_BUTTON.onclick = null;
-            RIGHT_BUTTON.onclick = null;
+            PATH_DISPLAY.textContent = 'Defeat the Pheonix';
+            appendButtons(path, PHEONIX_CONTSINER);
+            displayStats(path);
         }
     }
 
     else if(rightButtonClicked === true){
         // Allows us to append the button only ones
         if(MIGHT_DRAGON_CONTSINER.innerHTML === ''){
-            appendButtons(2, MIGHT_DRAGON_CONTSINER);
-            MID_BUTTON.onclick = null;
-            LEFT_BUTTON.onclick = null;
-            displayStats(2);
+            PATH_DISPLAY.textContent = 'Defeat Might Dragon';
+            appendButtons(path, MIGHT_DRAGON_CONTSINER);
+            displayStats(path);
         }
     }
 };
@@ -204,12 +215,12 @@ function appendButtons(nthButton, container){
     playGame(buttonIdList, nthButton, nthButton);
 }
 
-// Display the ENEMY & PLAYER STATS
-function displayStats(choice){
-    // Player stats
-    DISPLAY_PLAYER_HP.textContent = player.hp;
-    DISPLAY_PLAYER_ATKPOINTS.textContent = player.ATKPoints;
+// Player stats
+DISPLAY_PLAYER_HP.textContent = player.hp;
+DISPLAY_PLAYER_ATKPOINTS.textContent = player.ATKPoints;
 
+// Display the ENEMY upon selction
+function displayStats(choice){
     // Enemy stats
     DISPLAY_ENEMY_NAME.textContent = enemies[choice].name;
     DISPLAY_ENEMY_ATKPOINTS.textContent = enemies[choice].ATKPoints;
@@ -231,6 +242,31 @@ function playGame(play, buttons, looser){
         console.log("jghf")
         checkWinner(looser)
     };
+
+    // Player only gets reward if the enemy is dead
+    // This event should alos erase the dead enemy fight options
+    document.getElementById(play[2]).onclick = ()=>{
+        if(LEFT_BUTTON.textContent === 'Goblin is Dead!'){
+            GOBLIN_CONTSINER.innerHTML = '';
+            DISPLAY_ENEMY_NAME.textContent = 'Enemy';
+            LEFT_BUTTON.onclick = null;
+            leftButtonClicked = false;
+        }
+
+        if(MID_BUTTON.textContent === 'Pheonix is Dead!'){
+            DISPLAY_ENEMY_NAME.textContent = 'Enemy';
+            PHEONIX_CONTSINER.innerHTML = '';
+            MID_BUTTON.onclick = null;
+            midButtonClicked = false;
+        }
+    
+        if(RIGHT_BUTTON.textContent === 'Might Dragon is Dead!'){
+            DISPLAY_ENEMY_NAME.textContent = 'Enemy';
+            MIGHT_DRAGON_CONTSINER.innerHTML = '';
+            RIGHT_BUTTON.onclick = null;
+            rightButtonClicked = false;
+        }
+    }
 };
 
 // Checks if the PLAYER or the ENEMY won
@@ -247,8 +283,18 @@ function checkWinner(winner){
     else if(DISPLAY_ENEMY_HP.textContent === '0' || DISPLAY_ENEMY_HP.textContent <'0'){
         DISPLAY_ENEMY_HP.textContent = 0;
 
-        LEFT_BUTTON.textContent = `${enemies[winner].name} is Dead!`;
+        if(DISPLAY_ENEMY_NAME.textContent === 'Goblin'){
+            LEFT_BUTTON.textContent = `${enemies[0].name} is Dead!`;
+        }
+
+        else if(DISPLAY_ENEMY_NAME.textContent === 'Pheonix'){
+            MID_BUTTON.textContent = `${enemies[1].name} is Dead!`;
+        }
+
+        else if(DISPLAY_ENEMY_NAME.textContent === 'Might Dragon'){
+            RIGHT_BUTTON.textContent = `${enemies[2].name} is Dead!`;
+        }
+
         PATH_DISPLAY.textContent = `${enemies[winner].name} is Dead!`;
     }
-
-}
+};
