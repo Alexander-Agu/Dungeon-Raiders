@@ -15,11 +15,15 @@
                 <li side-item>
                     <a href="#" class="side-link">Dot</a>
                 </li>
+
                 <li side-item>
-                    <a href="#about" class="side-link">Dot</a>
+                    <a href="#how-to-play" class="side-link">Dot</a>
                 </li>
                 <li side-item>
                     <a href="#game" class="side-link">Dot</a>
+                </li>
+                <li side-item>
+                    <a href="#about" class="side-link">Dot</a>
                 </li>
             </ul>
         </nav>
@@ -41,19 +45,54 @@
     </section>
 
     <main class="main">
-        <article id="about">
-            <p>
-                <span>Dungeon Raiders</span> is a game i've created before when i was still introducing myself to JAVASCRIPT. I just felt the need to recreate it and make it look better and have a better playing experience and keep in mind this is just a simple decision making game. Hope you like what was my first project with JS
-            </p>
+        <!-- Gives instructions to the player -->
 
-            <h2>Alexander Ikechukwu Agu</h2>
+        <article class="how-to-play" id="how-to-play">
+            <div class="instuc">
+                <h1>How to Play.</h1>
+            </div>
+
+            <ol>
+                <li>
+                    Play close attention to player and enemy stats while playing the game
+                </li>
+
+                <li>
+                    As you play, both the player and enemy health reduces
+                </li>
+
+                <li>
+                    You will get an option of 3 enemies and you can only choose to fight 1 at a time.
+                </li>
+
+                <li>
+                    When you have chosen an enemy 3 buttons will apear (Quit, Fight Enemy, Take Reward)
+                </li>
+
+                <li>
+                    If you choose to quit the game is over
+                </li>
+
+                <li>
+                    Press the fight enemy button multiple times until either you or the enemy is dead
+                </li>
+
+                <li>
+                    The shop is also available and you can buy items anytime even while fighting an enemy
+                </li>
+
+                <li>
+                    You will only be able to use the reward button after defeating an enemy
+                </li>
+            </ol>
         </article>
+
 
         <article id="game">
 
             <!-- Label Content => display The instructions and outcome of your decisions -->
             <div class="labes">
-                <h2><span>Dungeon Raiders</span></h2>
+                <h2 class="heading"><span>Dungeon Raiders</span></h2>
 
                 <!-- Player STATS Section -->
                 <section class="stats">
@@ -129,6 +168,17 @@
             </div>
         </article>
     </main>
+
+
+    <footer>
+        <article id="about">
+            <p>
+                <span>Dungeon Raiders</span> is a game i've created before when i was still introducing myself to JAVASCRIPT. I just felt the need to recreate it and make it look better and have a better playing experience and keep in mind this is just a simple decision making game. Hope you like what was my first project with JS
+            </p>
+
+            <h2>Alexander Ikechukwu Agu</h2>
+        </article>
+    </footer>
 
     <script src="main.js"></script>
 </body>

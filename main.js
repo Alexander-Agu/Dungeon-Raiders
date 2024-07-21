@@ -6,7 +6,7 @@
 
 // >>>>> PLAYER <<<<< \\
 let player = {
-    hp: 1000,
+    hp: 10000,
     ATKPoints: 20000,
     money: 10000
 }
@@ -266,6 +266,8 @@ function playGame(play, buttons, looser){
             RIGHT_BUTTON.onclick = null;
             rightButtonClicked = false;
         }
+
+        recieveTitle();
     }
 };
 
@@ -277,6 +279,10 @@ function checkWinner(winner){
     if(DISPLAY_PLAYER_HP.textContent === '0' || DISPLAY_PLAYER_HP.textContent < '0'){
         DISPLAY_PLAYER_HP.textContent = 0;
         document.getElementById('button1').onclick = null;
+        document.getElementById('button0').onclick = null;
+
+        PATH_DISPLAY.textContent = `You where killed by the ${enemies[winner].name}`;
+        alert('Game Over You Where Defeated');
     }
 
     // Checks if the enemy lost
@@ -297,4 +303,15 @@ function checkWinner(winner){
 
         PATH_DISPLAY.textContent = `${enemies[winner].name} is Dead!`;
     }
+
+
 };
+
+// If the player defeats all 3 enemies he will recieve his title
+function recieveTitle(){
+    if(LEFT_BUTTON.textContent === 'Goblin is Dead!' && MID_BUTTON.textContent === 'Pheonix is Dead!' && RIGHT_BUTTON.textContent === 'Might Dragon is dead!'){
+        PATH_DISPLAY.textContent = `Be proud WORRIOR not only did you find courage to take this impossible challenge, you bested all ENEMIES against all odds /n Stand tall HERO for you are now a DUNGEON RAID MASTER!`;
+    
+        console.log('jhbn')
+    }
+}
