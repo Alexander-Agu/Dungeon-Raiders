@@ -7,8 +7,8 @@
 // >>>>> PLAYER <<<<< \\
 let player = {
     hp: 10000,
-    ATKPoints: 20000,
-    money: 10000
+    ATKPoints: 250,
+    money: 6000
 }
 
 // CONSTANT VARIABLES
@@ -40,41 +40,65 @@ let itemStore = [
 ];
 
 // Handles the AXE BUTTON
+let axeClick =  false;
 document.getElementById('axe-btn').onclick = ()=>{
+    axeClick = true;
     checkFunds(0);
-    
-    // Display the upgraded ATKPoints
-    let newpoints = player.ATKPoints += itemStore[0].ATKPoints;
-    DISPLAY_PLAYER_ATKPOINTS.textContent = newpoints;
-    console.log("hghnkl")
 };
 
 // Handles the SWORD BUTTON
+let swordClick = false;
 document.getElementById('sword-btn').onclick = ()=>{
+    swordClick = true;
     checkFunds(1);
-
-    let newpoints = player.ATKPoints += itemStore[1].ATKPoints;
-    DISPLAY_PLAYER_ATKPOINTS.textContent = newpoints;
-    console.log("hghnkl")
 };
 
 // Handles the HP BUTTON
+let hpClick = false;
 document.getElementById('hp-btn').onclick = ()=>{
+    hpClick = true;
     checkFunds(2);
-
-    let newpoints = player.hp += itemStore[2].health;
-    DISPLAY_PLAYER_HP.textContent = newpoints;
-    console.log("hghnkl")
 };
 
+DISPLAY_PLAYER_MONEY.textContent = player.money;
 // Checks if player has enough funds to buy the weapon
 function checkFunds(nth){
-    if(player.money > 0 && player.money >= itemStore[0].price){
-        player.money -= itemStore[nth].price
+    if(player.money > 0 && player.money >= itemStore[nth].price){
+        if(axeClick === true && swordClick === false && hpClick === false){
+            // Display the upgraded ATKPoints
+            let newATKP = player.ATKPoints += itemStore[nth].ATKPoints;
+            DISPLAY_PLAYER_ATKPOINTS.textContent = newATKP;
+
+            swordClick = false;
+            hpClick = false;
+            axeClick = false;
+        }
+
+        if(swordClick === true && axeClick === false && hpClick === false){
+            // Display the upgraded ATKPoints
+            let newATKP = player.ATKPoints += itemStore[nth].ATKPoints;
+            DISPLAY_PLAYER_ATKPOINTS.textContent = newATKP;
+
+            axeClick = false;
+            swordClick = false;
+            hpClick = false;
+        }
+
+        if(hpClick === true && axeClick === false && swordClick === false){
+            // Displays the upgraded HEALTH POINTS
+            let newHP = player.hp += itemStore[nth].health;
+            DISPLAY_PLAYER_HP.textContent = newHP;
+
+            axeClick = false;
+            swordClick = false;
+            hpClick = false;
+        }
+
+        player.money -= itemStore[nth].price;
         DISPLAY_PLAYER_MONEY.textContent = player.money;
     } else{
-        alert("You dont Have enough Money")
-    }
+        alert("You dont Have enough Money");
+    };
 };
 
 
@@ -106,8 +130,8 @@ const MIGHT_DRAGON_CONTSINER = document.querySelector('.fight-might-dragon');
 let enemies = [
     {
         name: 'Goblin',
-        hp: 10000,
-        ATKPoints: 100,
+        hp: 10199,
+        ATKPoints: 550,
         reward: {
             hp: 0,
             money: 1000
@@ -115,20 +139,20 @@ let enemies = [
     },
     {
         name: 'Pheonix',
-        hp: 10000,
-        ATKPoints: 100,
+        hp: 11050,
+        ATKPoints: 950,
         reward: {
-            hp: 550,
-            money: 500
+            hp: 10050,
+            money: 5000
         }
     },
     {
         name: 'Might Dragon',
-        hp: 10000,
-        ATKPoints: 100,
+        hp: 30500,
+        ATKPoints: 16000,
         reward: {
             hp: 0,
-            money: 10000
+            money: 100000
         }
     },
 ];
@@ -136,7 +160,6 @@ let enemies = [
 // Handles the left button
 let leftButtonClicked = false;
 LEFT_BUTTON.onclick = ()=>{
-
     if(DISPLAY_ENEMY_NAME.textContent === 'Enemy'){
         leftButtonClicked = true;
         choosePath(0);
@@ -151,7 +174,6 @@ MID_BUTTON.onclick = ()=>{
     if(DISPLAY_ENEMY_NAME.textContent === 'Enemy'){
         midButtonClicked = true;
         choosePath(1);
-        console.log('if 1')
     } else{
         alert("Fight the enemy you have chosen before you move on to this point");
     };
@@ -239,8 +261,7 @@ function playGame(play, buttons, looser){
     document.getElementById(play[1]).onclick = ()=>{
         DISPLAY_PLAYER_HP.textContent -= enemies[buttons].ATKPoints;
         DISPLAY_ENEMY_HP.textContent -= player.ATKPoints;
-        console.log("jghf")
-        checkWinner(looser)
+        checkWinner(looser);
     };
 
     // Player only gets reward if the enemy is dead
@@ -251,6 +272,9 @@ function playGame(play, buttons, looser){
             DISPLAY_ENEMY_NAME.textContent = 'Enemy';
             LEFT_BUTTON.onclick = null;
             leftButtonClicked = false;
+
+            // REWARDS
+            getRward(0);
         }
 
         if(MID_BUTTON.textContent === 'Pheonix is Dead!'){
@@ -258,6 +282,9 @@ function playGame(play, buttons, looser){
             PHEONIX_CONTSINER.innerHTML = '';
             MID_BUTTON.onclick = null;
             midButtonClicked = false;
+
+            // REWARDS
+            getRward(1);
         }
     
         if(RIGHT_BUTTON.textContent === 'Might Dragon is Dead!'){
@@ -265,9 +292,24 @@ function playGame(play, buttons, looser){
             MIGHT_DRAGON_CONTSINER.innerHTML = '';
             RIGHT_BUTTON.onclick = null;
             rightButtonClicked = false;
+
+            // REWARDS
+            getRward(0);
+        }else{
+            alert('Defeat the ENEMY in Order to get the reward')
         }
 
-        recieveTitle();
+        function getRward(nthReward){
+            alert(`Your reward is \n +${enemies[nthReward].reward.hp} Health Points \n +${enemies[nthReward].reward.money} Money`)
+            // Converts the strings to numbers
+            let hpToNum = Number(DISPLAY_PLAYER_HP.textContent);
+            let moneyToNum = Number(DISPLAY_PLAYER_MONEY.textContent);
+
+            player.hp += enemies[nthReward].reward.hp;
+            player.money += enemies[nthReward].reward.money;
+            DISPLAY_PLAYER_HP.textContent = player.hp
+            DISPLAY_PLAYER_MONEY.textContent = player.money
+        }
     }
 };
 
@@ -283,6 +325,10 @@ function checkWinner(winner){
 
         PATH_DISPLAY.textContent = `You where killed by the ${enemies[winner].name}`;
         alert('Game Over You Where Defeated');
+
+        GOBLIN_CONTSINER.innerHTML = '';
+        PHEONIX_CONTSINER.innerHTML = '';
+        MIGHT_DRAGON_CONTSINER.innerHTML = '';
     }
 
     // Checks if the enemy lost
@@ -299,19 +345,17 @@ function checkWinner(winner){
 
         else if(DISPLAY_ENEMY_NAME.textContent === 'Might Dragon'){
             RIGHT_BUTTON.textContent = `${enemies[2].name} is Dead!`;
-        }
+        };
 
         PATH_DISPLAY.textContent = `${enemies[winner].name} is Dead!`;
+
+        // Checks if the player defeated all enemies
+        if(LEFT_BUTTON.textContent === 'Goblin is Dead!' && MID_BUTTON.textContent === 'Pheonix is Dead!' && RIGHT_BUTTON.textContent === 'Might Dragon is Dead!'){
+            PATH_DISPLAY.textContent = `Be proud WORRIOR not only did you find courage to take this impossible challenge, you bested all ENEMIES against all odds /n Stand tall HERO for you are now a DUNGEON RAID MASTER!`;
+
+            GOBLIN_CONTSINER.innerHTML = '';
+            PHEONIX_CONTSINER.innerHTML = '';
+            MIGHT_DRAGON_CONTSINER.innerHTML = '';
+        }
     }
-
-
 };
-
-// If the player defeats all 3 enemies he will recieve his title
-function recieveTitle(){
-    if(LEFT_BUTTON.textContent === 'Goblin is Dead!' && MID_BUTTON.textContent === 'Pheonix is Dead!' && RIGHT_BUTTON.textContent === 'Might Dragon is dead!'){
-        PATH_DISPLAY.textContent = `Be proud WORRIOR not only did you find courage to take this impossible challenge, you bested all ENEMIES against all odds /n Stand tall HERO for you are now a DUNGEON RAID MASTER!`;
-    
-        console.log('jhbn')
-    }
-}

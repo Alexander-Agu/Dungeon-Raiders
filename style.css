@@ -105,7 +105,7 @@
 
 /* >>>>> INSTUCTION CENTER <<<<< */
     .how-to-play{
-        height: 40vh;
+        height: 50vh;
         background-color: red;
         padding: 16px;
     }
@@ -337,6 +337,17 @@
 
 
 /* >>>>> RESPONSIVE WEB <<<<< */
+    @media(max-width: 1181px){
+        /* >> HERO SECTION */
+            .hero h1{
+                font-size: 30px;
+            }
+        /* >>> HOW TO PLAY */
+            .how-to-play{
+                height: 80vh;
+            }
+    }
+
     @media(max-width: 800px){
         /* >>> HEADER STYLES */
             .sidebar{
@@ -392,7 +403,7 @@
 
         /* >>> How to play */
             .how-to-play{
-                height: 50vh;
+                height: 45vh;
             }
             .how-to-play li{
                 font-size: 16px;
@@ -437,6 +448,31 @@
             font-size: 20px;
             font-weight: 500;
         }
+    }
+
+    @media(max-width: 791px){
+        /* >>> HOW TO PLAY */
+            .how-to-play{
+                height: 40vh;
+            }
+    }
+    @media(max-width: 789px){
+        /* >>> HOW TO PLAY */
+            .how-to-play{
+                height: 40vh;
+            }
+    }
+    @media(max-width: 775px){
+        /* >>> HOW TO PLAY */
+            .how-to-play{
+                height: 55vh;
+            }
+    }
+    @media(max-width: 600px){
+        /* >>> HOW TO PLAY */
+            .how-to-play{
+                height: 55vh;
+            }
     }
 
     @media(max-width: 500px){
@@ -553,5 +589,24 @@
                 font-size: 18px;
             }
         /*  */
+    }
+
+    @media(max-width: 485px){
+        /* >>> HOW TO PLAY */
+            .how-to-play{
+                height: 58vh;
+            }
+    }
+    @media(max-width: 419px){
+        /* >>> HOW TO PLAY */
+            .how-to-play{
+                height: 70vh;
+            }
+    }
+    @media(max-width: 349px){
+        /* >>> HOW TO PLAY */
+            .how-to-play{
+                height: 75vh;
+            }
     }
 /*  */
