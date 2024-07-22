@@ -262,12 +262,16 @@ function playGame(play, buttons, looser){
         DISPLAY_PLAYER_HP.textContent -= enemies[buttons].ATKPoints;
         DISPLAY_ENEMY_HP.textContent -= player.ATKPoints;
         checkWinner(looser);
+
+        if(PATH_DISPLAY.textContent === `${enemies[looser].name} is Dead!`){
+            document.getElementById(play[1]).onclick = null;
+        }
     };
 
     // Player only gets reward if the enemy is dead
     // This event should alos erase the dead enemy fight options
     document.getElementById(play[2]).onclick = ()=>{
-        if(LEFT_BUTTON.textContent === 'Goblin is Dead!'){
+        if(PATH_DISPLAY.textContent === 'Goblin is Dead!'){
             GOBLIN_CONTSINER.innerHTML = '';
             DISPLAY_ENEMY_NAME.textContent = 'Enemy';
             LEFT_BUTTON.onclick = null;
@@ -277,7 +281,7 @@ function playGame(play, buttons, looser){
             getRward(0);
         }
 
-        if(MID_BUTTON.textContent === 'Pheonix is Dead!'){
+        if(PATH_DISPLAY.textContent === 'Pheonix is Dead!'){
             DISPLAY_ENEMY_NAME.textContent = 'Enemy';
             PHEONIX_CONTSINER.innerHTML = '';
             MID_BUTTON.onclick = null;
@@ -287,7 +291,7 @@ function playGame(play, buttons, looser){
             getRward(1);
         }
     
-        if(RIGHT_BUTTON.textContent === 'Might Dragon is Dead!'){
+        if(PATH_DISPLAY.textContent === 'Might Dragon is Dead!'){
             DISPLAY_ENEMY_NAME.textContent = 'Enemy';
             MIGHT_DRAGON_CONTSINER.innerHTML = '';
             RIGHT_BUTTON.onclick = null;
@@ -295,8 +299,6 @@ function playGame(play, buttons, looser){
 
             // REWARDS
             getRward(0);
-        }else{
-            alert('Defeat the ENEMY in Order to get the reward')
         }
 
         function getRward(nthReward){
@@ -329,6 +331,10 @@ function checkWinner(winner){
         GOBLIN_CONTSINER.innerHTML = '';
         PHEONIX_CONTSINER.innerHTML = '';
         MIGHT_DRAGON_CONTSINER.innerHTML = '';
+
+        LEFT_BUTTON.onclick = null;
+        MID_BUTTON.onclick = null;
+        RIGHT_BUTTON.onclick = null;
     }
 
     // Checks if the enemy lost
