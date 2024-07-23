@@ -148,8 +148,8 @@ let enemies = [
     },
     {
         name: 'Might Dragon',
-        hp: 30500,
-        ATKPoints: 16000,
+        hp: 20500,
+        ATKPoints: 10800,
         reward: {
             hp: 0,
             money: 100000
@@ -253,7 +253,9 @@ function displayStats(choice){
 function playGame(play, buttons, looser){
     // Handles the quite button
     document.getElementById(play[0]).onclick = ()=>{
-        GAME_CONTAINER.textContent = 'You will Never become a DUNGEON RAIDER';
+        PATH_DISPLAY.textContent = 'You have ABANDONED  your guest. At least you know your place is amongst the loosers. Farewell CHICKEN';
+
+        resetGame();
     };
 
     // Handles the fight button
@@ -274,7 +276,6 @@ function playGame(play, buttons, looser){
         if(PATH_DISPLAY.textContent === 'Goblin is Dead!'){
             GOBLIN_CONTSINER.innerHTML = '';
             DISPLAY_ENEMY_NAME.textContent = 'Enemy';
-            LEFT_BUTTON.onclick = null;
             leftButtonClicked = false;
 
             // REWARDS
@@ -284,7 +285,6 @@ function playGame(play, buttons, looser){
         if(PATH_DISPLAY.textContent === 'Pheonix is Dead!'){
             DISPLAY_ENEMY_NAME.textContent = 'Enemy';
             PHEONIX_CONTSINER.innerHTML = '';
-            MID_BUTTON.onclick = null;
             midButtonClicked = false;
 
             // REWARDS
@@ -335,6 +335,8 @@ function checkWinner(winner){
         LEFT_BUTTON.onclick = null;
         MID_BUTTON.onclick = null;
         RIGHT_BUTTON.onclick = null;
+
+        resetGame();
     }
 
     // Checks if the enemy lost
@@ -362,6 +364,54 @@ function checkWinner(winner){
             GOBLIN_CONTSINER.innerHTML = '';
             PHEONIX_CONTSINER.innerHTML = '';
             MIGHT_DRAGON_CONTSINER.innerHTML = '';
-        }
-    }
+
+            resetGame();
+        };
+    };
+};
+
+
+// Function that resets the game after the player dies or quits or beats the game
+const RESET_CONTAINER = document.querySelector('.reset');
+function resetGame(){
+    // Button to reset the game
+    let resetBTN = document.createElement('button');
+    resetBTN.id = 'reset';
+    resetBTN.textContent = 'RESET GAME';
+    RESET_CONTAINER.append(resetBTN);
+
+
+    // Allows the character to reset the game when button is clicked
+    document.getElementById('reset').onclick = ()=>{
+/*         RESET_CONTAINER.innerHTML = '';
+        // Reset Path chooser
+        PATH_DISPLAY.textContent = `You have stumbled on the entrace of a Dungeon but it seems it has 3 paths. \n
+        Choose your path and become the dungeon master`;
+
+        LEFT_BUTTON.textContent = enemies[0].name;
+        MID_BUTTON.textContent = enemies[1].name;
+        RIGHT_BUTTON.textContent =  enemies[2].name;
+
+        // Reset player stats
+        player.hp = 10000;
+        player.money = 6000;
+        player.ATKPoints = 250;
+        DISPLAY_PLAYER_HP.textContent = player.hp;
+        DISPLAY_PLAYER_ATKPOINTS.textContent = player.ATKPoints;
+        DISPLAY_PLAYER_MONEY.textContent = player.money
+
+        // Reset enemy stats
+        enemies[0].hp = 10199;
+        enemies[1].hp = 11050;
+        enemies[2].hp = 20500;
+        DISPLAY_ENEMY_NAME.textContent = 'Enemy';
+        DISPLAY_ENEMY_ATKPOINTS.textContent = 0;
+        DISPLAY_ENEMY_HP.textContent = 0;
+
+        GOBLIN_CONTSINER.innerHTML = '';
+        PHEONIX_CONTSINER.innerHTML = '';
+        MIGHT_DRAGON_CONTSINER.innerHTML = ''; */
+
+        window.location.reload();
+    };
 };
