@@ -256,6 +256,7 @@ function playGame(play, buttons, looser){
         PATH_DISPLAY.textContent = 'You have ABANDONED  your guest. At least you know your place is amongst the loosers. Farewell CHICKEN';
 
         resetGame();
+        document.getElementById(play[0]).onclick = null;
     };
 
     // Handles the fight button
